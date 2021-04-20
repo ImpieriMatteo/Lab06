@@ -41,6 +41,12 @@ public class FXMLController {
     @FXML
     void doCalcolaSequenza(ActionEvent event) {
 
+    	int mese = boxMese.getValue().getValue();
+    	
+    	List<String> results = model.trovaSequenza(mese);
+    	for(String s : results) {
+    		txtResult.appendText(s+"\n");
+    	}
     }
 
     @FXML
