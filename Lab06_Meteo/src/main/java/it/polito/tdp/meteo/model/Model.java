@@ -24,8 +24,7 @@ public class Model {
 		for(String s : dao.getAllLocalita()) {
 			Citta temp = new Citta(s);
 			citta.add(temp);
-		}
-		
+		}	
 	}
 
 	// of course you can change the String output with what you think works best
@@ -60,6 +59,7 @@ public class Model {
 		for(Rilevamento r : risultatoMigliore) {
 			result.add(r.getLocalita());
 		}
+		result.add(""+costoSoluzioneMigliore);
 		
 		return result;
 	}
@@ -80,7 +80,8 @@ public class Model {
 					if(ultimaCittaVisitata==null) {
 						Rilevamento r = c.getRilevamenti().get(livello);
 						parziale.add(r);
-						ultimaCittaVisitata = c;
+						ultimaCittaVisitata = new Citta(c.getNome());
+						ultimaCittaVisitata.increaseCounter();
 						c.increaseCounter();
 						cerca(parziale, ultimaCittaVisitata, livello+1);
 						parziale.remove(r);
@@ -88,11 +89,12 @@ public class Model {
 						c.decreaseCounter();
 
 					}
-					else if(ultimaCittaVisitata.getCounter()>=NUMERO_GIORNI_CITTA_CONSECUTIVI_MIN) {
+					else if(ultimaCittaVisitata.getCounter()>=NUMERO_GIORNI_CITTA_CONSECUTIVI_MIN && c.getCounter()<NUMERO_GIORNI_CITTA_MAX) {
 						Citta temp = ultimaCittaVisitata;
 						Rilevamento r = c.getRilevamenti().get(livello);
 						parziale.add(r);
-						ultimaCittaVisitata = c;
+						ultimaCittaVisitata = new Citta(c.getNome());
+						ultimaCittaVisitata.increaseCounter();
 						c.increaseCounter();
 						cerca(parziale, ultimaCittaVisitata, livello+1);
 						parziale.remove(r);
@@ -107,9 +109,11 @@ public class Model {
 				else if(c.getCounter()<NUMERO_GIORNI_CITTA_MAX) {
 					Rilevamento r = c.getRilevamenti().get(livello);
 					parziale.add(r);
+					ultimaCittaVisitata.increaseCounter();
 					c.increaseCounter();
 					cerca(parziale, ultimaCittaVisitata, livello+1);
 					parziale.remove(r);
+					ultimaCittaVisitata.decreaseCounter();
 					c.decreaseCounter();
 				}
 			}

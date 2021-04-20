@@ -40,6 +40,7 @@ public class FXMLController {
 
     @FXML
     void doCalcolaSequenza(ActionEvent event) {
+    	txtResult.clear();
 
     	int mese = boxMese.getValue().getValue();
     	
@@ -51,6 +52,7 @@ public class FXMLController {
 
     @FXML
     void doCalcolaUmidita(ActionEvent event) {
+    	txtResult.clear();
     	
     	int mese = boxMese.getValue().getValue();
     	
